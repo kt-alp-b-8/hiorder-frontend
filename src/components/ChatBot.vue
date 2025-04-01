@@ -120,7 +120,7 @@
         this.isLoading = true;
         
         try {
-          const response = await axios.post('/owner/chat', { question: question }, { params: { sessionId: this.sessionId } });
+          const response = await axios.post('/owner/chat/webresponse', { question: question }, { params: { sessionId: this.sessionId } });
           // 응답: { answer: "챗봇 답변" }
           this.messages.push({ role: 'assistant', content: response.data.answer });
         } catch (error) {
