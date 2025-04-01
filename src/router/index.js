@@ -7,6 +7,7 @@ import OwnerLoginView from '../views/OwnerLoginView.vue'
 import RestaurantOrderHistoryView from '../views/RestaurantOrderHistoryView.vue'
 import TableOrderHistoryClearView from '../views/TableOrderHistoryClearView.vue'
 import OwnerMenuManageView from '../views/OwnerMenuManageView.vue'
+import PaymentView from '../views/PaymentView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,6 +54,11 @@ const router = createRouter({
       name: "OwnerMenuManageView",
       component: OwnerMenuManageView
     },
+    {
+      path: "/payment",
+      name: "PaymentView",
+      component: PaymentView
+    }
   ],
 })
 
