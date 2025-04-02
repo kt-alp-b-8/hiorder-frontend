@@ -174,7 +174,7 @@ export default {
       this.errorMessage = "";
       try {
         const response = await axios.get(
-          `http://localhost:8080/restaurants/${restaurantId}/orders/history?orderStatus=PENDING&orderCode=desc`
+          `/order/${restaurantId}/orders/history?orderStatus=IN_PROGRESS&orderCode=desc`
         );
         if (response.data.success) {
           this.orders = response.data.data;

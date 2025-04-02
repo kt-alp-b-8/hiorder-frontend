@@ -196,7 +196,7 @@ export default {
           }
       const requestBody = {
         orderTable: storedTableName, // 실제 테이블명
-        orderItems: this.cart.map((item) => ({
+        orderItemRequestDtos: this.cart.map((item) => ({
           menuId: item.menuId,
           menuName: item.menuName, // optional
           quantity: item.quantity,
@@ -207,7 +207,7 @@ export default {
 
       try {
         const response = await axios.post(
-          `http://localhost:8080/restaurants/${restaurantId}/tables/${tableId}/orders`,
+          `/order/${restaurantId}/tables/${tableId}/orders`,
           requestBody
         );
 

@@ -409,7 +409,7 @@ export default {
             menuImageUrl: this.formData.menuImageUrl
           };
           const response = await axios.post(
-            `http://localhost:8080/restaurants/${restaurantId}/menus`,
+            `/restaurant/${restaurantId}/menu`,
             reqBody
           );
           /* (A1) 성공 응답 */
@@ -438,7 +438,7 @@ export default {
           };
           const menuId = this.formData.menuId;
           const response = await axios.put(
-            `http://localhost:8080/restaurants/${restaurantId}/menus/${menuId}`,
+            `/restaurant/${restaurantId}/menus/${menuId}`,
             reqBody
           );
           if (response.data.success) {
@@ -483,7 +483,7 @@ export default {
       try {
         // 예) DELETE /restaurants/{restaurantId}/menus/{menuId}
         const response = await axios.delete(
-          `http://localhost:8080/restaurants/${restaurantId}/menus/${menuId}`
+          `/restaurant/${restaurantId}/menus/${menuId}`
         );
 
         if (response.data.success) {
