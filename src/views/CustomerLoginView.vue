@@ -81,11 +81,13 @@ export default {
           }
         );
 
+        console.log(response.data.data.success);
+
         // 백엔드 응답 형식 가정: { status: 200, success: true, restaurantId: ..., tableId: ... }
-        if (response.data.success) {
+        if (response.data.data.success) {
           this.successMessage = "로그인 성공!";
-          const rId = response.data.restaurantId;
-          const tId = response.data.tableId;
+          const rId = response.data.data.restaurantId;
+          const tId = response.data.data.tableId;
           
           // (1) 라우터로 이동 (방식2)
           // /restaurants/:restaurantId/tables/:tableId
