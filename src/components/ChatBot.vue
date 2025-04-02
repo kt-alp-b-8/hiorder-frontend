@@ -120,8 +120,10 @@
         this.isLoading = true;
         
         try {
-          const response = await axios.post('/restaurant/owner/chat/webresponse', { question: question }, { params: { sessionId: this.sessionId } });
+          const response = await axios.post('https://team08.kro.kr/restaurant/owner/chat/webresponse', { question: question }, { params: { sessionId: this.sessionId } });
           // 응답: { answer: "챗봇 답변" }
+          console.log('챗봇 응답:', response.data);
+
           this.messages.push({ role: 'assistant', content: response.data.answer });
         } catch (error) {
           console.error(error);

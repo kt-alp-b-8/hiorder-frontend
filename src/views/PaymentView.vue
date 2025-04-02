@@ -1,55 +1,88 @@
 <template>
-  <div>
-    <button @click="onPayment">
-      결제하기
-    </button>
-  </div>
-</template>
+    <div>
+      <!-- 뷰 진입 시 자동 결제 -->
+    </div>
+  </template>
+  
+  <script setup>
+  import { onMounted } from 'vue';
+  import { useRoute, useRouter } from 'vue-router';
+  import axios from 'axios';
+  
+  const route = useRoute();
+  const router = useRouter();
+  
+  const amount = Number(route.query.amount || 0);
+  const restaurantId = localStorage.getItem('restaurantId');
 
-<script setup>
-
-import { useRoute } from 'vue-router'; 
-const route = useRoute();              
-
-const amount = Number(route.query.amount || 0); // 전달된 amount 값
-
-const onPayment = () => {
-  // 1. 가맹점 식별하기
-  const { IMP } = window;
-  IMP.init('imp23456548'); // 고객사 식별코드 입력시 실제 결제가 됨
-
-  // 2. 결제 데이터 정의하기
-  const data = {
-    pg: 'uplus', // PG사 코드 (예: html5_inicis, kakaopay 등)
-    pay_method: 'card', // 결제 수단
-    merchant_uid: `mid_${new Date().getTime()}`, // 주문 번호
-    amount: amount, // 결제 금액
-    name: '하이오더 결제', // 주문명
-    buyer_name: '홍길동', // 구매자 이름
-    buyer_tel: '01012341234', // 구매자 전화번호
-    buyer_email: 'example@gmail.com', // 구매자 이메일
-    buyer_addr: '신사동 661-16', // 구매자 주소
-    buyer_postcode: '06018' // 구매자 우편번호
+  
+  // 1. 결제 함수
+  const onPayment = () => {
+    const { IMP } = window;
+    IMP.init('imp23456548'); // 아임포트 식별자
+  
+    const data = {
+      pg: 'uplus',
+      pay_method: 'card',
+      merchant_uid: `mid_${new Date().getTime()}`,
+      amount: amount,
+      name: '하이오더 결제',
+      buyer_name: '홍길동',
+      buyer_tel: '01012341234',
+      buyer_email: 'example@gmail.com',
+      buyer_addr: '신사동 661-16',
+      buyer_postcode: '06018'
+    };
+  
+    IMP.request_pay(data, callback);
   };
+  
+  // 2. 콜백 함수
+  const callback = async (response) => {
+    const { success, error_msg, imp_uid } = response;
+    const orderIds = JSON.parse(localStorage.getItem('orderIds'));
+    const tableId = localStorage.getItem('tableId');
 
-  // 3. 결제 창 호출하기
-  IMP.request_pay(data, callback);
-};
+    console.log("아이디 시작");
+    console.log(orderIds);
+    console.log(tableId);
+    console.log(success);
+    console.log(imp_uid);
 
-const callback = (response) => {
-  // 4. 콜백 함수 정의하기
-  const {
-    success,
-    merchant_uid,
-    error_msg
-  } = response;
+    const paymentData = {
+        orderIds: orderIds, // orderIds 사용
+        tableId: tableId || 1,
+        isSuccess: success,
+        paymentKey: imp_uid
+    };
 
-  console.log(response);
+    console.log(paymentData);
+  try {
+    await axios.post('http://localhost:8082/payment', paymentData);
 
-  if (success) {
-    alert('결제 성공');
-  } else {
-    alert(`결제 실패: ${error_msg}`);
+    if (success) {
+      alert('결제 성공');
+      // 결제 성공 후 추가 로직
+    } else {
+      alert(`결제 실패: ${error_msg}`);
+    }
+  } catch (error) {
+    console.error('결제 정보 전송 실패:', error);
   }
+
+  
+  console.log(restaurantId);
+  restaurantId = 1;
+  console.log(restaurantId);
+  // 결제 후 이전 화면으로 이동
+  router.push({
+    name: 'TableOrderHistoryClearView',
+    params: { restaurantId },
+    query: { amount }
+  });
 };
+
+onMounted(() => {
+  onPayment();
+});
 </script>

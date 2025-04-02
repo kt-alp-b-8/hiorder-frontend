@@ -302,6 +302,9 @@ export default {
     },
     // 주문내역 화면으로 이동
     goToHistory() {
+
+      console.log("goToHistory")
+
       const { restaurantId, tableId } = this.$route.params;
       const currentLang = this.selectedLang;
       this.$router.push({

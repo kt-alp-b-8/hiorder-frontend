@@ -76,6 +76,9 @@
       };
     },
     async mounted() {
+
+      console.log("마운트 시작")
+
       const { restaurantId, tableId } = this.$route.params;
       // 1) localStorage에서 locale_${tableId} 읽기
       const savedLocale = localStorage.getItem(`locale_${tableId}`);
@@ -97,15 +100,20 @@
   
       // (2) tableOrderHistory API 호출
       try {
+        console.log("여기 시작")
+
         const response = await axios.get(
           `https://team08.kro.kr/order/${restaurantId}/table/${tableId}/order/history` +
         `?orderStatus=IN_PROGRESS&orderCode=desc&lang=${this.selectedLang}`
         );
-        if (response.data.success) {
-          this.orders = response.data.data; // array of order info
+        if (response.data.httpStatusCode == 200) {
+          this.orders = response.data.data.data; // array of order info
         } else {
-          this.errorMessage = response.data.message || "주문 내역 조회 실패.";
+          this.errorMessage = response.data.data.message || "주문 내역 조회 실패.";
         }
+
+
+
       } catch (err) {
         if (err.response) {
           const status = err.response.status;

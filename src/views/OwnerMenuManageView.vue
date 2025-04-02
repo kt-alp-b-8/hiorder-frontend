@@ -284,16 +284,16 @@ export default {
     // 1) 카테고리 조회
     try {
       const catRes = await axios.get(
-        `/restaurant/${restaurantId}/category?sort=displayOrder`
+        `https://team08.kro.kr/restaurant/${restaurantId}/category?sort=displayOrder`
       );
-      if (catRes.data.success) {
-        this.categories = catRes.data.data;
+      if (catRes.data.httpStatusCode == 200) {
+        this.categories = catRes.data.data.data;
         if (this.categories.length > 0) {
           this.selectedCategoryId = this.categories[0].menuCategoryId;
           this.fetchMenus(this.selectedCategoryId);
         }
       } else {
-        this.errorMessage = catRes.data.message || "카테고리 조회 실패.";
+        this.errorMessage = catRes.data.data.message || "카테고리 조회 실패.";
       }
     } catch (err) {
       this.handleError(err);
@@ -327,12 +327,12 @@ export default {
       const { restaurantId } = this.$route.params;
       try {
         const menuRes = await axios.get(
-          `/restaurant/${restaurantId}/category/${catId}/menu?sort=displayOrder`
+          `https://team08.kro.kr/restaurant/${restaurantId}/category/${catId}/menu?sort=displayOrder`
         );
-        if (menuRes.data.success) {
-          this.menus = menuRes.data.data;
+        if (menuRes.data.httpStatusCode == 200) {
+          this.menus = menuRes.data.data.data;
         } else {
-          this.errorMessage = menuRes.data.message || "메뉴 조회 실패.";
+          this.errorMessage = menuRes.data.data.message || "메뉴 조회 실패.";
         }
       } catch (err) {
         this.handleError(err);
@@ -409,19 +409,19 @@ export default {
             menuImageUrl: this.formData.menuImageUrl
           };
           const response = await axios.post(
-            `/restaurant/${restaurantId}/menu`,
+            `https://team08.kro.kr/restaurant/${restaurantId}/menu`,
             reqBody
           );
           /* (A1) 성공 응답 */
-          if (response.data.success) {
-            this.showToast(response.data.message || "메뉴 등록 성공!");
+          if (response.status == 200) {
+            this.showToast(response.data.data.message || "메뉴 등록 성공!");
             // 등록 후 재조회
             if (this.selectedCategoryId) {
               this.fetchMenus(this.selectedCategoryId);
             }
           } else {
             /* (A2) 실패 응답 (ex. success=false) */
-            this.showToast(response.data.message || "메뉴 등록 실패");
+            this.showToast(response.data.data.message || "메뉴 등록 실패");
           }
 
         } else {
@@ -438,17 +438,22 @@ export default {
           };
           const menuId = this.formData.menuId;
           const response = await axios.put(
-            `/restaurant/${restaurantId}/menu/${menuId}`,
+            `https://team08.kro.kr/restaurant/${restaurantId}/menu/${menuId}`,
             reqBody
           );
-          if (response.data.success) {
-            this.showToast(response.data.message || "메뉴 수정 성공!");
+          // const response = await axios.put(
+          //   `http://localhost:8081/restaurant/${restaurantId}/menu/${menuId}`,
+          //   reqBody
+          // );
+          console.log(response)
+          if (response.status == 200) {
+            this.showToast(response.data.data.message || "메뉴 수정 성공!");
             // 수정 후 재조회
             if (this.selectedCategoryId) {
               this.fetchMenus(this.selectedCategoryId);
             }
           } else {
-            this.showToast(response.data.message || "메뉴 수정 실패");
+            this.showToast(response.data.data.message || "메뉴 수정 실패");
           }
         }
       } catch (err) {
@@ -483,17 +488,20 @@ export default {
       try {
         // 예) DELETE /restaurants/{restaurantId}/menus/{menuId}
         const response = await axios.delete(
-          `/restaurant/${restaurantId}/menu/${menuId}`
+          `https://team08.kro.kr/restaurant/${restaurantId}/menu/${menuId}`
         );
+        // const response = await axios.delete(
+        //   `http://localhost:8081/restaurant/${restaurantId}/menu/${menuId}`
+        // );
 
-        if (response.data.success) {
-          this.showToast(response.data.message || "메뉴가 삭제되었습니다.");
+        if (response.status == 200) {
+          this.showToast(response.data.data.message || "메뉴가 삭제되었습니다.");
           // 메뉴 목록 재조회
           if (this.selectedCategoryId) {
             this.fetchMenus(this.selectedCategoryId);
           }
         } else {
-          this.showToast(response.data.message || "메뉴 삭제 실패");
+          this.showToast(response.data.data.message || "메뉴 삭제 실패");
         }
       } catch (err) {
         if (err.response) {

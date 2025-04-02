@@ -177,26 +177,36 @@ export default {
     };
   },
   async mounted() {
+
+    console.log("테이블 오더 클리어 뷰 마운트 진입")
+
     const { restaurantId } = this.$route.params;
     // 식당명 불러오기 (localStorage 등)
     const savedName = localStorage.getItem("ownerRestaurantName");
     this.restaurantName = savedName || "사장님 식당";
 
+    // const orderIds = JSON.parse(localStorage.getItem('orderIds'));
+    // console.log("아이디들");
+    // console.log(orderIds); // 필요에 따라 사용
+
     // (1) restaurantTableInfo API
     try {
+      console.log("시작")
       const response = await axios.get(
         `https://team08.kro.kr/restaurant/${restaurantId}/table?sort=table_id`
       );
-      if (response.data.success) {
-        this.tables = response.data.data; 
+
+      if (response.data.httpStatusCode == 200) {
+        this.tables = response.data.data.data; 
       } else {
-        this.errorMessage = response.data.message || "테이블 조회 실패.";
+        this.errorMessage = response.data.data.message || "테이블 조회 실패.";
       }
     } catch (err) {
       if (err.response) {
-        const backendMsg = err.response.data.msg || err.response.data.message;
+        const backendMsg = err.response.data.data.msg || err.response.data.data.message;
         this.errorMessage = backendMsg || "서버 오류가 발생했습니다.";
       } else {
+        console.log(this.errorMessage)
         this.errorMessage = "네트워크 오류가 발생했습니다.";
       }
     }
@@ -245,14 +255,25 @@ export default {
       this.showModal = false; // 모달 닫기
       const { restaurantId } = this.$route.params;
 
+      console.log("두 클리어 시작")
+
       try {
         const response = await axios.put(
           `https://team08.kro.kr/order/${restaurantId}/table/${this.selectedTable.tableId}/order/changeStatus`
         );
+
+        console.log(response)
+        console.log(response.status)
+
+
         // 성공 응답 예: { status:200, success:true, data:{ updatedCount, updatedOrderIds, totalAmount }, message }
-        if (response.data.success) {
+        if (response.status == 200) {
+
+          console.log("여기여기")
            // (2) toast 로 메시지 표시
-          this.showToast(response.data.message || "정리 완료!");
+          this.showToast("정리 완료!");
+
+          console.log(response.data.data.totalAmount)
 
           const totalAmount = response.data.data.totalAmount;
           this.$router.push(
@@ -262,11 +283,11 @@ export default {
           // this.fetchTables(); // etc
         } else {
           // success=false
-           this.showToast(response.data.message || "정리 실패!");
+           this.showToast(response.data.data.message || "정리 실패!");
         }
       } catch (err) {
         if (err.response) {
-          const backendMsg = err.response.data.msg || err.response.data.message;
+          const backendMsg = err.response.data.data.msg || err.response.data.data.message;
           this.showToast(backendMsg || "서버 오류가 발생했습니다.");
         } else {
           this.showToast("네트워크 오류가 발생했습니다.");

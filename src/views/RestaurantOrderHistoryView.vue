@@ -170,20 +170,29 @@ export default {
   },
   methods: {
     async fetchOrders() {
-      const { restaurantId } = this.$route.params;
+
+      const { restaurantId, tableId } = this.$route.params;
       this.errorMessage = "";
       try {
         const response = await axios.get(
           `https://team08.kro.kr/order/${restaurantId}/order/history?orderStatus=IN_PROGRESS&orderCode=desc`
         );
-        if (response.data.success) {
-          this.orders = response.data.data;
+        if (response.data.httpStatusCode == 200) {
+          this.orders = response.data.data.data;
+          const orderIds = this.orders.map(order => order.orderId);
+          console.log("아이디 리스트 : " + orderIds)
+          localStorage.setItem('orderIds', JSON.stringify(orderIds));
+          localStorage.setItem('tableId', tableId);
+          localStorage.setItem('restaurantId', restaurantId); // restaurantId 저장
+
+          console.log("여기는 id " + restaurantId)
+
         } else {
-          this.errorMessage = response.data.message || "주문 내역 조회 실패.";
+          this.errorMessage = response.data.data.message || "주문 내역 조회 실패.";
         }
       } catch (err) {
         if (err.response) {
-          const backendMsg = err.response.data.msg || err.response.data.message;
+          const backendMsg = err.response.data.data.msg || err.response.data.data.message;
           this.errorMessage = backendMsg || "서버 오류가 발생했습니다.";
         } else {
           this.errorMessage = "네트워크 오류가 발생했습니다.";

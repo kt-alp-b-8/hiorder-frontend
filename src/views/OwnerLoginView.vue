@@ -65,9 +65,9 @@
   
           // 3) 백엔드 응답 처리
           //    예: { status: 200, success: true, restaurantId: ... }
-          if (response.data.success) {
+          if (response.data.data.success) {
             this.successMessage = "로그인 성공!";
-            const rId = response.data.restaurantId;
+            const rId = response.data.data.restaurantId;
 
             // [CHANGED] also store the actual restaurantName
             localStorage.setItem("ownerRestaurantName", this.restaurantName);
