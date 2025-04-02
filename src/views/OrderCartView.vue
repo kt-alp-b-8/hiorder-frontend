@@ -181,6 +181,9 @@ export default {
     },
     // [CHANGED] submitOrder with tableName from localStorage, show toast with backend message
     async submitOrder() {
+
+      console.log("시작")
+
       const { restaurantId, tableId } = this.$route.params;
       // [CHANGED] load tableName from localStorage
       const storedTableName = localStorage.getItem(`tableName_${tableId}`) || "테이블명미정";
@@ -203,20 +206,34 @@ export default {
           itemPrice: item.price,
         })),
         totalAmount: this.totalPrice,
+        peopleCount: 2
       };
 
+      console.log("첫 번째 메뉴 ID:", requestBody.orderItemRequestDtos[1]?.menuId);
+
       try {
+
+        console.log(restaurantId + " 여기여기 " + tableId)
+
+        // const response = await axios.post(
+        //   `https://team08.kro.kr/order/${restaurantId}/table/${tableId}/order`,
+        //   requestBody
+        // );
         const response = await axios.post(
-          `https://team08.kro.kr/order/${restaurantId}/table/${tableId}/order`,
+          `http://localhost:8080/order/${restaurantId}/table/${tableId}/order`,
           requestBody
         );
 
-        if (response.status === 201 && response.data.success) {
+        console.log(response)
+
+        if (response.data.httpStatusCode == 201) {
+
+          console.log("성공!!!!")
              // i18n 번역 키를 우선 사용
             const successMsg = this.$t('message.orderSuccess'); 
             // or this.showToast(response.data.message || successMsg);
 
-            this.showToast(successMsg || response.data.message || "주문이 성공적으로 생성되었습니다.");
+            this.showToast(successMsg || response.data.data.message || "주문이 성공적으로 생성되었습니다.");
             // (2) localStorage 등에 저장 (또는 router param 사용)
             localStorage.setItem(`toastMessage_${tableId}`, successMsg);
             
