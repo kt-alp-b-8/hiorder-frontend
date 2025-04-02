@@ -215,14 +215,14 @@ export default {
 
         console.log(restaurantId + " 여기여기 " + tableId)
 
-        // const response = await axios.post(
-        //   `https://team08.kro.kr/order/${restaurantId}/table/${tableId}/order`,
-        //   requestBody
-        // );
         const response = await axios.post(
-          `http://localhost:8080/order/${restaurantId}/table/${tableId}/order`,
+          `https://team08.kro.kr/order/${restaurantId}/table/${tableId}/order`,
           requestBody
         );
+        // const response = await axios.post(
+        //   `http://localhost:8080/order/${restaurantId}/table/${tableId}/order`,
+        //   requestBody
+        // );
 
         console.log(response)
 
