@@ -7,6 +7,12 @@
 </template>
 
 <script setup>
+
+import { useRoute } from 'vue-router'; 
+const route = useRoute();              
+
+const amount = Number(route.query.amount || 0); // 전달된 amount 값
+
 const onPayment = () => {
   // 1. 가맹점 식별하기
   const { IMP } = window;
@@ -17,11 +23,11 @@ const onPayment = () => {
     pg: 'uplus', // PG사 코드 (예: html5_inicis, kakaopay 등)
     pay_method: 'card', // 결제 수단
     merchant_uid: `mid_${new Date().getTime()}`, // 주문 번호
-    amount: 1000, // 결제 금액
-    name: '아임포트 결제 데이터 분석', // 주문명
+    amount: amount, // 결제 금액
+    name: '하이오더 결제', // 주문명
     buyer_name: '홍길동', // 구매자 이름
     buyer_tel: '01012341234', // 구매자 전화번호
-    buyer_email: 'baroq8@gmail.com', // 구매자 이메일
+    buyer_email: 'example@gmail.com', // 구매자 이메일
     buyer_addr: '신사동 661-16', // 구매자 주소
     buyer_postcode: '06018' // 구매자 우편번호
   };
