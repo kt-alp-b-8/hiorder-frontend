@@ -185,7 +185,7 @@ export default {
     // (1) restaurantTableInfo API
     try {
       const response = await axios.get(
-        `/restaurant/${restaurantId}/table?sort=table_id`
+        `https://team08.kro.kr/restaurant/${restaurantId}/table?sort=table_id`
       );
       if (response.data.success) {
         this.tables = response.data.data; 
@@ -247,7 +247,7 @@ export default {
 
       try {
         const response = await axios.put(
-          `/order/${restaurantId}/table/${this.selectedTable.tableId}/order/changeStatus`
+          `https://team08.kro.kr/order/${restaurantId}/table/${this.selectedTable.tableId}/order/changeStatus`
         );
         // 성공 응답 예: { status:200, success:true, data:{ updatedCount, updatedOrderIds, totalAmount }, message }
         if (response.data.success) {
