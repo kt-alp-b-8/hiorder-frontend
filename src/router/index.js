@@ -18,20 +18,20 @@ const router = createRouter({
       component: CustomerLoginView,
     },
     {
-      path: '/restaurant/menu',
-      // path: '/restaurants/:restaurantId/tables/:tableId/menu',
+      // path: '/restaurant/menu',
+      path: '/restaurants/:restaurantId/tables/:tableId/menu',
       name: 'RestaurantMenuView',
       component: RestaurantMenuView
     },
     {
-      path: '/order/cart',
-      // path: '/restaurants/:restaurantId/tables/:tableId/cart',
+      // path: '/order/cart',
+      path: '/restaurants/:restaurantId/tables/:tableId/cart',
       name: 'OrderCartView',
       component: OrderCartView
     },
     {
-      path: "/order/table/history",
-      // path: "/restaurants/:restaurantId/tables/:tableId/history",
+      // path: "/order/table/history",
+      path: "/restaurants/:restaurantId/tables/:tableId/history",
       name: "TableOrderHistoryView",
       component: TableOrderHistoryView
     },
@@ -42,21 +42,21 @@ const router = createRouter({
     },
     // 사장님 주문내역 실시간 확인
     {
-      path: "/order/restaurant/history",
-      // path: "/restaurants/:restaurantId/orders/history",
+      // path: "/order/restaurant/history",
+      path: "/restaurants/:restaurantId/orders/history",
       name: "RestaurantOrderHistoryView",
       component: RestaurantOrderHistoryView
     },
     {
-      path: "/order/table/clear",
-      // path: "/restaurants/:restaurantId/tables",
+      // path: "/order/table/clear",
+      path: "/restaurants/:restaurantId/tables",
       name: "TableOrderHistoryClearView",
       component: TableOrderHistoryClearView
     },
     // [CHANGED] 메뉴 관리 라우트 추가
     {
-      path: "/owner/menu/manage",
-      // path: "/restaurants/:restaurantId/menus/manage",
+      // path: "/owner/menu/manage",
+      path: "/restaurants/:restaurantId/menus/manage",
       name: "OwnerMenuManageView",
       component: OwnerMenuManageView
     },
