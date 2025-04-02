@@ -98,7 +98,7 @@
       // (2) tableOrderHistory API 호출
       try {
         const response = await axios.get(
-          `/order/${restaurantId}/tables/${tableId}/orders/history` +
+          `/order/${restaurantId}/table/${tableId}/order/history` +
         `?orderStatus=IN_PROGRESS&orderCode=desc&lang=${this.selectedLang}`
         );
         if (response.data.success) {

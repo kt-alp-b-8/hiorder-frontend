@@ -185,7 +185,7 @@ export default {
     // (1) restaurantTableInfo API
     try {
       const response = await axios.get(
-        `http://localhost:8080/restaurants/${restaurantId}/tables?sort=table_id`
+        `/restaurant/${restaurantId}/table?sort=table_id`
       );
       if (response.data.success) {
         this.tables = response.data.data; 
@@ -247,12 +247,17 @@ export default {
 
       try {
         const response = await axios.put(
-          `/order/${restaurantId}/tables/${this.selectedTable.tableId}/orders/changeStatus`
+          `/order/${restaurantId}/table/${this.selectedTable.tableId}/order/changeStatus`
         );
-        // 성공 응답 예: { status:200, success:true, data:{ updatedCount, updatedOrderIds }, message }
+        // 성공 응답 예: { status:200, success:true, data:{ updatedCount, updatedOrderIds, totalAmount }, message }
         if (response.data.success) {
            // (2) toast 로 메시지 표시
-           this.showToast(response.data.message || "정리 완료!");
+          this.showToast(response.data.message || "정리 완료!");
+
+          const totalAmount = response.data.data.totalAmount;
+          this.$router.push(
+            {name: 'PaymentView', query: { amount: totalAmount }}
+          );
           // (3) updatedCount>0이면 테이블 목록 다시 조회할지 여부는 선택
           // this.fetchTables(); // etc
         } else {

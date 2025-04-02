@@ -201,7 +201,7 @@ export default {
     try {
       // restaurantInfo
       const infoRes = await axios.get(
-        `restaurant/${restaurantId}/table/${tableId}`
+        `/restaurant/{restaurantId}/table/{tableId}`
       );
       if (infoRes.data.success) {
         this.restaurantName = infoRes.data.restaurantName;
@@ -216,7 +216,7 @@ export default {
       // (2) restaurantCategoryInfo API (sort=displayOrder)
       // [CHANGED] lang 파라미터 추가
       const catRes = await axios.get(
-        `http://localhost:8080/restaurants/${restaurantId}/categories?sort=displayOrder&lang=${this.selectedLang}`
+        `/restaurant/{restaurantId}/category?sort=displayOrder&lang=${this.selectedLang}`
       );
       if (catRes.data.success) {
         this.categories = catRes.data.data;
@@ -252,7 +252,7 @@ export default {
       const { restaurantId } = this.$route.params;
       try {
         const menuRes = await axios.get(
-          `http://localhost:8080/restaurants/${restaurantId}/categories/${catId}/menus?sort=displayOrder&lang=${this.selectedLang}`
+          `/restaurant/{restaurantId}/category/{menuCategoryId}/menu?sort=displayOrder&lang=${this.selectedLang}`
         );
         if (menuRes.data.success) {
           this.menus = menuRes.data.data;
@@ -339,7 +339,7 @@ export default {
       const { restaurantId } = this.$route.params;
       try {
         const catRes = await axios.get(
-          `http://localhost:8080/restaurants/${restaurantId}/categories?sort=displayOrder&lang=${this.selectedLang}`
+          `/restaurant/{restaurantId}/category?sort=displayOrder&lang=${this.selectedLang}`
         );
         if (catRes.data.success) {
           this.categories = catRes.data.data;

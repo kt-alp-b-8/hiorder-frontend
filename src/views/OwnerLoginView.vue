@@ -59,7 +59,7 @@
   
         try {
           // 2) 백엔드 API 호출
-          const response = await axios.post("http://localhost:8080/ownerView/login", {
+          const response = await axios.post("/restaurant/login/owner", {
             restaurantName: this.restaurantName
           });
   

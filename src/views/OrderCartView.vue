@@ -207,7 +207,7 @@ export default {
 
       try {
         const response = await axios.post(
-          `/order/${restaurantId}/tables/${tableId}/orders`,
+          `/order/${restaurantId}/table/${tableId}/order`,
           requestBody
         );
 

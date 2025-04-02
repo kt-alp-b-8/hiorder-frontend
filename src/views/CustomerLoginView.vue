@@ -74,7 +74,7 @@ export default {
       try {
         // 백엔드 API 호출
         const response = await axios.post(
-          "http://localhost:8080/customerView/login",
+          "/restaurant/login/customer",
           {
             restaurantName: this.restaurantName,
             tableName: this.tableName,

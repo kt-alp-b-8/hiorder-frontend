@@ -284,7 +284,7 @@ export default {
     // 1) 카테고리 조회
     try {
       const catRes = await axios.get(
-        `http://localhost:8080/restaurants/${restaurantId}/categories?sort=displayOrder`
+        `/restaurant/${restaurantId}/category?sort=displayOrder`
       );
       if (catRes.data.success) {
         this.categories = catRes.data.data;
@@ -327,7 +327,7 @@ export default {
       const { restaurantId } = this.$route.params;
       try {
         const menuRes = await axios.get(
-          `http://localhost:8080/restaurants/${restaurantId}/categories/${catId}/menus?sort=displayOrder`
+          `/restaurant/${restaurantId}/category/${catId}/menu?sort=displayOrder`
         );
         if (menuRes.data.success) {
           this.menus = menuRes.data.data;
@@ -438,7 +438,7 @@ export default {
           };
           const menuId = this.formData.menuId;
           const response = await axios.put(
-            `/restaurant/${restaurantId}/menus/${menuId}`,
+            `/restaurant/${restaurantId}/menu/${menuId}`,
             reqBody
           );
           if (response.data.success) {
@@ -483,7 +483,7 @@ export default {
       try {
         // 예) DELETE /restaurants/{restaurantId}/menus/{menuId}
         const response = await axios.delete(
-          `/restaurant/${restaurantId}/menus/${menuId}`
+          `/restaurant/${restaurantId}/menu/${menuId}`
         );
 
         if (response.data.success) {

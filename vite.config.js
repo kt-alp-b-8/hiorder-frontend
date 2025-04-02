@@ -17,20 +17,28 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/images': {
-        target: 'http://localhost:8080',
+      // '/images': {
+      //   target: 'http://localhost:8080',
+      //   changeOrigin: true
+      // },
+      // '/owner': {             // 추가: '/owner' 경로에 대한 프록시 설정
+      //   target: 'http://localhost:8080/',
+      //   changeOrigin: true
+      // },
+      '/order': {
+        target: 'https://team08.kro.kr/order',
         changeOrigin: true
       },
-      '/owner': {             // 추가: '/owner' 경로에 대한 프록시 설정
-        target: 'http://172.30.1.68:8080/',
+      '/restaurant': {
+        target: 'https://team08.kro.kr/restaurant',
         changeOrigin: true
       },
-      'order': {
-        target: 'http://172.30.1.68:8080/',
+      '/payment': {
+        target: 'https://team08.kro.kr/payment',
         changeOrigin: true
       },
-      'restaurant': {
-        target: 'http://172.30.1.68:8080/',
+      '/ocr': {
+        target: 'https://team08.kro.kr/ocr',
         changeOrigin: true
       },
     }

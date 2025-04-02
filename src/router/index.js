@@ -13,44 +13,50 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/customerView/login',
+      path: '/customer/login',
       name: 'CustomerLoginView',
       component: CustomerLoginView,
     },
     {
-      path: '/restaurants/:restaurantId/tables/:tableId/menu',
+      path: '/restaurant/menu',
+      // path: '/restaurants/:restaurantId/tables/:tableId/menu',
       name: 'RestaurantMenuView',
       component: RestaurantMenuView
     },
     {
-      path: '/restaurants/:restaurantId/tables/:tableId/cart',
+      path: '/order/cart',
+      // path: '/restaurants/:restaurantId/tables/:tableId/cart',
       name: 'OrderCartView',
       component: OrderCartView
     },
     {
-      path: "/restaurants/:restaurantId/tables/:tableId/history",
+      path: "/order/table/history",
+      // path: "/restaurants/:restaurantId/tables/:tableId/history",
       name: "TableOrderHistoryView",
       component: TableOrderHistoryView
     },
     {
-      path: "/ownerView/login",
+      path: "/owner/login",
       name: "OwnerLoginView",
       component: OwnerLoginView,
     },
     // 사장님 주문내역 실시간 확인
     {
-      path: "/restaurants/:restaurantId/orders/history",
+      path: "/order/restaurant/history",
+      // path: "/restaurants/:restaurantId/orders/history",
       name: "RestaurantOrderHistoryView",
       component: RestaurantOrderHistoryView
     },
     {
-      path: "/restaurants/:restaurantId/tables",
+      path: "/order/table/clear",
+      // path: "/restaurants/:restaurantId/tables",
       name: "TableOrderHistoryClearView",
       component: TableOrderHistoryClearView
     },
     // [CHANGED] 메뉴 관리 라우트 추가
     {
-      path: "/restaurants/:restaurantId/menus/manage",
+      path: "/owner/menu/manage",
+      // path: "/restaurants/:restaurantId/menus/manage",
       name: "OwnerMenuManageView",
       component: OwnerMenuManageView
     },
