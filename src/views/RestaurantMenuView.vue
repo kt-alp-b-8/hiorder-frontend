@@ -201,7 +201,7 @@ export default {
     try {
       // restaurantInfo
       const infoRes = await axios.get(
-        `http://localhost:8080/restaurants/${restaurantId}/tables/${tableId}`
+        `restaurant/${restaurantId}/table/${tableId}`
       );
       if (infoRes.data.success) {
         this.restaurantName = infoRes.data.restaurantName;

@@ -22,9 +22,17 @@ export default defineConfig({
         changeOrigin: true
       },
       '/owner': {             // 추가: '/owner' 경로에 대한 프록시 설정
-        target: 'http://localhost:8080',
+        target: 'http://172.30.1.68:8080/',
         changeOrigin: true
-      }
+      },
+      'order': {
+        target: 'http://172.30.1.68:8080/',
+        changeOrigin: true
+      },
+      'restaurant': {
+        target: 'http://172.30.1.68:8080/',
+        changeOrigin: true
+      },
     }
   },
 })

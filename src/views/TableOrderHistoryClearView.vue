@@ -247,7 +247,7 @@ export default {
 
       try {
         const response = await axios.put(
-          `http://localhost:8080/restaurants/${restaurantId}/tables/${this.selectedTable.tableId}/orders/changeStatus`
+          `/order/${restaurantId}/tables/${this.selectedTable.tableId}/orders/changeStatus`
         );
         // 성공 응답 예: { status:200, success:true, data:{ updatedCount, updatedOrderIds }, message }
         if (response.data.success) {
