@@ -80,17 +80,19 @@ export default {
             tableName: this.tableName,
           }
         );
-
-        console.log(response.data.data.success);
-
         // 백엔드 응답 형식 가정: { status: 200, success: true, restaurantId: ..., tableId: ... }
         if (response.data.data.success) {
           this.successMessage = "로그인 성공!";
           const rId = response.data.data.restaurantId;
           const tId = response.data.data.tableId;
           
+          console.log(rId + " 라라ㅏ " + tId);
+
           // (1) 라우터로 이동 (방식2)
           // /restaurants/:restaurantId/tables/:tableId
+          // this.$router.push(
+          //   `/restaurants/${rId}/tables/${tId}/menu`
+          // );
           this.$router.push({
             name: "RestaurantMenuView",
             params: {

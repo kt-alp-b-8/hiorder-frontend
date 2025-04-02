@@ -175,6 +175,7 @@ export default {
   },
   async mounted() {
     const { restaurantId, tableId, lang } = this.$route.params;
+
     // 1) lang 파라미터가 있으면 그 언어 사용, 없으면 localStorage에서 사용, 둘 다 없으면 kr
     const savedLocale = localStorage.getItem(`locale_${tableId}`);
     if (savedLocale) {
@@ -201,27 +202,33 @@ export default {
     try {
       // restaurantInfo
       const infoRes = await axios.get(
-        `/restaurant/{restaurantId}/table/{tableId}`
+        `https://team08.kro.kr/restaurant/${restaurantId}/table/${tableId}`
       );
-      if (infoRes.data.success) {
-        this.restaurantName = infoRes.data.restaurantName;
-        this.tableName = infoRes.data.tableName; // <-- 여기가 추가되어야 함
-        localStorage.setItem(`tableName_${tableId}`, infoRes.data.tableName);
-      
+
+      console.log(infoRes)
+
+      if (infoRes.data.httpStatusCode == 200) {
+        console.log("성공")
+        this.restaurantName = infoRes.data.data.restaurantName;
+        this.tableName = infoRes.data.data.tableName; // <-- 여기가 추가되어야 함
+        localStorage.setItem(`tableName_${tableId}`, infoRes.data.data.tableName);
+        
+        console.log(this.restaurantName + " infoRes " + this.tableName)
       } else {
-        this.errorMessage = infoRes.data.message || "식당정보 조회 실패.";
+        console.log("실패임")
+        this.errorMessage = infoRes.data.data.message || "식당정보 조회 실패.";
         return;
       }
 
       // (2) restaurantCategoryInfo API (sort=displayOrder)
       // [CHANGED] lang 파라미터 추가
       const catRes = await axios.get(
-        `/restaurant/{restaurantId}/category?sort=displayOrder&lang=${this.selectedLang}`
+        `https://team08.kro.kr/restaurant/${restaurantId}/category?sort=displayOrder&lang=${this.selectedLang}`
       );
-      if (catRes.data.success) {
-        this.categories = catRes.data.data;
+      if (catRes.data.httpStatusCode == 200) {
+        this.categories = catRes.data.data.data;
       } else {
-        this.errorMessage = catRes.data.message || "카테고리 조회 실패.";
+        this.errorMessage = catRes.data.data.message || "카테고리 조회 실패.";
         return;
       }
 
@@ -250,14 +257,15 @@ export default {
     async fetchMenus(catId) {
       this.errorMessage = "";
       const { restaurantId } = this.$route.params;
+
       try {
         const menuRes = await axios.get(
-          `/restaurant/{restaurantId}/category/{menuCategoryId}/menu?sort=displayOrder&lang=${this.selectedLang}`
+          `https://team08.kro.kr/restaurant/${restaurantId}/category/${catId}/menu?sort=displayOrder&lang=${this.selectedLang}`
         );
-        if (menuRes.data.success) {
-          this.menus = menuRes.data.data;
+        if (menuRes.data.httpStatusCode == 200) {
+          this.menus = menuRes.data.data.data;
         } else {
-          this.errorMessage = menuRes.data.message || "메뉴 조회 실패.";
+          this.errorMessage = menuRes.data.data.message || "메뉴 조회 실패.";
         }
       } catch (err) {
         this.handleError(err);
@@ -339,7 +347,7 @@ export default {
       const { restaurantId } = this.$route.params;
       try {
         const catRes = await axios.get(
-          `/restaurant/{restaurantId}/category?sort=displayOrder&lang=${this.selectedLang}`
+          `https://team08.kro.kr/restaurant/{restaurantId}/category?sort=displayOrder&lang=${this.selectedLang}`
         );
         if (catRes.data.success) {
           this.categories = catRes.data.data;
