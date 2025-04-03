@@ -226,12 +226,6 @@ export default {
         `https://team08.kro.kr/restaurant/${restaurantId}/category?sort=displayOrder&lang=${this.selectedLang}`
       );
 
-      console.log("선택된 언어 : " +  this.selectedLang);
-      console.log("레스토랑 아이디 : " + restaurantId);
-
-      // const catRes = await axios.get(
-      //   `http://localhost:8081/restaurant/${restaurantId}/category?sort=displayOrder&lang=${this.selectedLang}`
-      // );
       if (catRes.status == 200) {
         this.categories = catRes.data.data.data;
       } else {
@@ -359,9 +353,6 @@ export default {
         const catRes = await axios.get(
           `https://team08.kro.kr/restaurant/${restaurantId}/category?sort=displayOrder&lang=${this.selectedLang}`
         );
-        // const catRes = await axios.get(
-        //   `http://localhost:8081/restaurant/${restaurantId}/category?sort=displayOrder&lang=${this.selectedLang}`
-        // );
 
         console.log(catRes);
 
