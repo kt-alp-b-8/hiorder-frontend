@@ -7,6 +7,7 @@ import OwnerLoginView from '../views/OwnerLoginView.vue'
 import RestaurantOrderHistoryView from '../views/RestaurantOrderHistoryView.vue'
 import TableOrderHistoryClearView from '../views/TableOrderHistoryClearView.vue'
 import OwnerMenuManageView from '../views/OwnerMenuManageView.vue'
+import PeopleCountView from '../views/PeopleCountView.vue'
 import PaymentView from '../views/PaymentView.vue'
 
 const router = createRouter({
@@ -16,6 +17,11 @@ const router = createRouter({
       path: '/customer/login',
       name: 'CustomerLoginView',
       component: CustomerLoginView,
+    },
+    {
+      path: '/customer/count',
+      name: 'PeopleCountView',
+      component: PeopleCountView,
     },
     {
       // path: '/restaurant/menu',
