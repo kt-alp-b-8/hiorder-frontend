@@ -165,15 +165,20 @@
             />
           </div>
 
+<!--          <div class="form-group">-->
+<!--            <label>메뉴 이미지 URL <span class="optional">(선택사항)</span></label>-->
+<!--            <input -->
+<!--              type="text" -->
+<!--              v-model="formData.menuImageUrl" -->
+<!--              class="form-control"-->
+<!--              placeholder="이미지 URL을 입력하세요"-->
+<!--            />-->
+<!--          </div>-->
           <div class="form-group">
-            <label>메뉴 이미지 URL <span class="optional">(선택사항)</span></label>
-            <input 
-              type="text" 
-              v-model="formData.menuImageUrl" 
-              class="form-control"
-              placeholder="이미지 URL을 입력하세요"
-            />
+            <label>이미지 업로드</label>
+            <input type="file" @change="handleFileUpload" />
           </div>
+
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" @click="closeFormModal">취소</button>
@@ -300,6 +305,35 @@ export default {
     }
   },
   methods: {
+    async handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const response = await axios.post(
+            "https://team08.kro.kr/restaurant/file/upload",
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+        );
+
+        if (response.status === 200) {
+          this.formData.menuImageUrl = response.data;
+          this.showToast("이미지 업로드 성공!");
+        } else {
+          this.showToast("이미지 업로드 실패");
+        }
+      } catch (err) {
+        this.showToast("이미지 업로드 중 오류 발생");
+        console.error(err);
+      }
+    },
     // (A) 탭 전환: 주문내역 / 테이블내역비우기 / 메뉴관리
     goToOrdersTab() {
       this.currentTab = "orders";
