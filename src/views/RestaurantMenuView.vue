@@ -225,7 +225,14 @@ export default {
       const catRes = await axios.get(
         `https://team08.kro.kr/restaurant/${restaurantId}/category?sort=displayOrder&lang=${this.selectedLang}`
       );
-      if (catRes.data.httpStatusCode == 200) {
+
+      console.log("선택된 언어 : " +  this.selectedLang);
+      console.log("레스토랑 아이디 : " + restaurantId);
+
+      // const catRes = await axios.get(
+      //   `http://localhost:8081/restaurant/${restaurantId}/category?sort=displayOrder&lang=${this.selectedLang}`
+      // );
+      if (catRes.status == 200) {
         this.categories = catRes.data.data.data;
       } else {
         this.errorMessage = catRes.data.data.message || "카테고리 조회 실패.";
@@ -350,10 +357,16 @@ export default {
       const { restaurantId } = this.$route.params;
       try {
         const catRes = await axios.get(
-          `https://team08.kro.kr/restaurant/{restaurantId}/category?sort=displayOrder&lang=${this.selectedLang}`
+          `https://team08.kro.kr/restaurant/${restaurantId}/category?sort=displayOrder&lang=${this.selectedLang}`
         );
-        if (catRes.data.success) {
-          this.categories = catRes.data.data;
+        // const catRes = await axios.get(
+        //   `http://localhost:8081/restaurant/${restaurantId}/category?sort=displayOrder&lang=${this.selectedLang}`
+        // );
+
+        console.log(catRes);
+
+        if (catRes.status == 200) {
+          this.categories = catRes.data.data.data;
           if (this.categories.length > 0) {
             this.selectedCategoryId = this.categories[0].menuCategoryId;
             await this.fetchMenus(this.selectedCategoryId);
